@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "CodeflingEx",
+  "version": "1.2.0",
+  "description": "Insert custom HTML into Codefling file descriptions, bypassing the CKEditor content filter.",
+  "permissions": ["contextMenus", "scripting"],
+  "host_permissions": ["https://codefling.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
