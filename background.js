@@ -142,7 +142,7 @@ function createMenu() {
     chrome.contextMenus.removeAll(function onCleared() {
         chrome.contextMenus.create({
             id: MENU_ID,
-            title: "CodeflingEx: insert description...",
+            title: "Update Description",
             contexts: ["all"],
             documentUrlPatterns: URL_PATTERNS
         });
