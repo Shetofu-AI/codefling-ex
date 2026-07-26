@@ -26,7 +26,7 @@ The only route is to disable the filter and call `setData` directly. This extens
 
 ## Usage
 
-1. Open the edit page of your file on Codefling
+1. Open the edit page of your file on Codefling (`?do=edit`) — the menu item only appears there
 2. Right-click anywhere → **Update Description**
 3. Pick your `.html` file, or drop it on the overlay
 4. Press **Save without clicking into the editor**

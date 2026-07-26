@@ -1,5 +1,6 @@
 const MENU_ID = "codeflingex:insert";
 const URL_PATTERNS = ["https://codefling.com/*"];
+const EDIT_PAGE = /^https:\/\/codefling\.com\/.*[?&]do=edit(?:[&#]|$)/;
 const INSTANCE = "file_desc";
 
 function pickAndInject(instance) {
@@ -144,13 +145,39 @@ function createMenu() {
             id: MENU_ID,
             title: "Update Description",
             contexts: ["all"],
+            visible: false,
             documentUrlPatterns: URL_PATTERNS
         });
+
+        syncActiveTab();
+    });
+}
+
+function setVisible(url) {
+    chrome.contextMenus.update(MENU_ID, { visible: EDIT_PAGE.test(url || "") });
+}
+
+function syncActiveTab() {
+    chrome.tabs.query({ active: true, currentWindow: true }, function onQueried(tabs) {
+        setVisible(tabs[0] && tabs[0].url);
     });
 }
 
 chrome.runtime.onInstalled.addListener(createMenu);
 chrome.runtime.onStartup.addListener(createMenu);
+
+chrome.tabs.onActivated.addListener(syncActiveTab);
+chrome.windows.onFocusChanged.addListener(syncActiveTab);
+
+chrome.tabs.onUpdated.addListener(function onTabUpdated(tabId, changeInfo, tab) {
+    if (!tab.active) {
+        return;
+    }
+
+    if (changeInfo.url || changeInfo.status === "complete") {
+        setVisible(tab.url);
+    }
+});
 
 chrome.contextMenus.onClicked.addListener(function onMenuClicked(info, tab) {
     if (!tab || info.menuItemId !== MENU_ID) {
